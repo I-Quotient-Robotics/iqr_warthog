@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="sensor_support">
+
+  <xacro:macro name="sensor_support" params="package parent *origin">
+    <xacro:property name="prefix" value="sensor_support"/>
+
+    <link name="${prefix}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://${package}/urdf/mesh/sensor_support_without_lidar.stl"/>
+        </geometry>
+        <material name="">
+          <color rgba="0.2 0.2 0.2 1"/>
+        </material>
+      </visual>
+    </link>
+    <joint name="${prefix}_link_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${prefix}_link"/>
+    </joint>
+
+    <link name="top_mount_link"/>
+    <joint name="top_mount_link_joint" type="fixed">
+      <origin xyz="0.0 0 0.504" rpy="0.0 0.0 0.0" />
+      <parent link="${prefix}_link"/>
+      <child link="top_mount_link"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>

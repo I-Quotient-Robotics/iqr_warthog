@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="HDL32E">
+
+  <xacro:macro name="HDL32E" params="package parent *origin">
+    <xacro:property name="prefix" value="HDL32E"/>
+
+    <link name="${prefix}_link">
+      <visual>
+        <origin xyz="-0.04 -0.04 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://${package}/urdf/mesh/HDL32E.stl"/>
+        </geometry>
+        <material name="">
+          <color rgba="1.0 1.0 0.9 1"/>
+        </material>
+      </visual>
+    </link>
+    <joint name="${prefix}_link_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${prefix}_link"/>
+    </joint>
+
+    <link name="velodyne"/>
+    <joint name="velodyne_link_joint" type="fixed">
+      <origin xyz="0 0 0.090" rpy="0 0 0" />
+      <parent link="${prefix}_link"/>
+      <child link="velodyne"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>

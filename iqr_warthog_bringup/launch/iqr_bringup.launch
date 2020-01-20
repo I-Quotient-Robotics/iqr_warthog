@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Robot Description -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find iqr_warthog_description)/urdf/iqr_warthog.urdf.xacro" />
+  <!--node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" /-->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+
+  <!-- WARTHOG -->
+  <include file="$(find warthog_base)/launch/base.launch">
+  </include>
+
+  <!-- HDL32E -->
+  <include file="$(find velodyne_pointcloud)/launch/32e_points.launch">
+    <arg name="device_ip" default="192.168.131.10" />
+    <arg name="frame_id" default="velodyne"/>
+    <arg name="max_range" default="130.0" />
+    <arg name="rpm" default="600" />
+  </include>
+
+  <!-- Kinect 2.0 -->
+  <include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch">
+    <arg name="publish_tf" default="true"/>
+  </include>
+
+  <!-- IQR PAN_TILT -->
+  <node name="iqr" pkg="pan_tilt_driver" type="PanTiltDriverNode" output="screen">
+    <param name="port_name" value="/dev/pan_tilt"/>
+    <param name="yaw_joint_name" value="pan_tilt_yaw_joint"/>
+    <param name="pitch_joint_name" value="pan_tilt_pitch_joint"/>
+  </node>
+
+</launch>

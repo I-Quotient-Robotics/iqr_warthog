@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="iqr_warthog">
+
+  <xacro:property name="package_name" value="iqr_warthog_description"/>
+
+  <!-- Include Jackal -->
+  <include filename="$(find warthog_description)/urdf/warthog.urdf.xacro"/>
+
+  <!-- Include accessories -->
+  <xacro:include filename="$(find ${package_name})/urdf/HDL32E.xacro"/>
+  <xacro:include filename="$(find ${package_name})/urdf/kinect_v2.xacro"/>
+  <xacro:include filename="$(find ${package_name})/urdf/kinect_support.xacro"/>
+  <xacro:include filename="$(find ${package_name})/urdf/sensor_support.xacro"/>
+  <xacro:include filename="$(find pan_tilt_description)/urdf/pan_tilt.urdf.xacro" />
+
+  <!-- IQR kinect support -->
+  <xacro:kinect_support package="${package_name}" parent="top_chassis_link">
+    <origin xyz="0.0 0 0.0" rpy="0 0 0" />
+  </xacro:kinect_support>
+
+  <!-- IQR sensor support -->
+  <xacro:sensor_support package="${package_name}" parent="top_chassis_link">
+    <origin xyz="-0.17 0 0.0" rpy="0 0 0" />
+  </xacro:sensor_support>
+
+  <!-- HDL-32E lidar -->
+  <xacro:HDL32E package="${package_name}" parent="top_mount_link">
+    <origin xyz="0.0 0 0.0" rpy="0 0 0" />
+  </xacro:HDL32E>
+
+  <!-- IQR pan-tilt -->
+  <xacro:pan_tilt parent="pt_surface_link">
+    <origin xyz="0.0 0 0.0" rpy="0 0 0" />
+  </xacro:pan_tilt>
+
+  <!-- Kinect v2 -->
+  <xacro:kinect_v2 package="${package_name}" parent="pan_tilt_kinect_surface" >
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:kinect_v2>
+
+</robot>
